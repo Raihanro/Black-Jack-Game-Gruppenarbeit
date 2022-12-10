@@ -66,6 +66,15 @@ function bleiben()
     }
 }
 
+function check()
+{
+    if (players[currentPlayer].Points > 21)
+    {
+        document.getElementById('status').innerHTML = 'players: ' + players[currentPlayer].ID + ' verloren';
+        document.getElementById('status').style.display = "inline-block";
+        end();
+    }
+}
 function end()
 {
     let Gewinner = -1;
@@ -81,21 +90,18 @@ function end()
         score = players[i].Points;
     }
 
-    document.getElementById('status').innerHTML = 'Gewinner: Spieler ' + players[Gewinner].ID;
+    document.getElementById('status').innerHTML = 'Gewinner: Spieler  ' + players[Gewinner].ID;
     document.getElementById("status").style.display = "inline-block";
 }
 
-function check()
-{
-    if (players[currentPlayer].Points > 21)
-    {
-        document.getElementById('status').innerHTML = 'Spieler: ' + players[currentPlayer].ID + ' LOST';
-        document.getElementById('status').style.display = "inline-block";
-        end();
-    }
-}
 
 function updateDeck()
 {
     document.getElementById('Deckzahl').innerHTML = deck.length;
 }
+
+window.addEventListener('load', function(){
+    deckErstellen();
+    shuffle();
+    createPlayers(1);
+});
