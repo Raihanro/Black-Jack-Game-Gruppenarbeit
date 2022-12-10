@@ -66,15 +66,6 @@ function bleiben()
     }
 }
 
-function check()
-{
-    if (players[currentPlayer].Points > 21)
-    {
-        document.getElementById('status').innerHTML = 'players: ' + players[currentPlayer].ID + ' verloren';
-        document.getElementById('status').style.display = "inline-block";
-        end();
-    }
-}
 function end()
 {
     let Gewinner = -1;
@@ -94,6 +85,15 @@ function end()
     document.getElementById("status").style.display = "inline-block";
 }
 
+function check()
+{
+    if (players[currentPlayer].Points > 21)
+    {
+        document.getElementById('status').innerHTML = 'players: ' + players[currentPlayer].ID + ' verloren';
+        document.getElementById('status').style.display = "inline-block";
+        end();
+    }
+}
 
 function updateDeck()
 {
@@ -105,3 +105,112 @@ window.addEventListener('load', function(){
     shuffle();
     createPlayers(1);
 });
+
+
+function createPlayers(num)
+{
+    players = new Array();
+    for(var i = 1; i <= num; i++)
+    {
+        var hand = new Array();
+        var player = { Name: 'Player ' + i, ID: i, Points: 0, Hand: hand };
+        players.push(player);
+    }
+}
+
+function createPlayersUI()
+{
+    document.getElementById('players').innerHTML = '';
+    for(var i = 0; i < players.length; i++)
+    {
+        var div_player = document.createElement('div');
+        var div_playerid = document.createElement('div');
+        var div_hand = document.createElement('div');
+        var div_points = document.createElement('div');
+
+        div_points.className = 'points';
+        div_points.id = 'points_' + i;
+        div_player.id = 'player_' + i;
+        div_player.className = 'player';
+        div_hand.id = 'hand_' + i;
+
+        div_playerid.innerHTML = 'Player ' + players[i].ID;
+        div_player.appendChild(div_playerid);
+        div_player.appendChild(div_hand);
+        div_player.appendChild(div_points);
+        document.getElementById('players').appendChild(div_player);
+    }
+}
+
+function shuffle()
+{
+
+    for (var i = 0; i < 1000; i++)
+    {
+        var location1 = Math.floor((Math.random() * deck.length));
+        var location2 = Math.floor((Math.random() * deck.length));
+        var tmp = deck[location1];
+
+        deck[location1] = deck[location2];
+        deck[location2] = tmp;
+    }
+}
+
+function startblackjack()
+{
+    document.getElementById('btnStart').value = 'Restart';
+    document.getElementById("status").style.display="none";
+
+    currentPlayer = 0;
+    createDeck();
+    shuffle();
+    createPlayers(2);
+    createPlayersUI();
+    dealHands();
+    document.getElementById('player_' + currentPlayer).classList.add('active');
+}
+
+function renderCard(card, player)
+{
+    var hand = document.getElementById('hand_' + player);
+    hand.appendChild(getCardUI(card));
+}
+
+function getCardUI(card)
+{
+    var el = document.createElement('div');
+    var icon = '';
+    if (card.Suit == 'Hearts')
+        icon='&hearts;';
+    else if (card.Suit == 'Spades')
+        icon = '&spades;';
+    else if (card.Suit == 'Diamonds')
+        icon = '&diams;';
+    else
+        icon = '&clubs;';
+
+    el.className = 'card';
+    el.innerHTML = card.Value + '<br/>' + icon;
+    return el;
+}
+
+
+function getPoints(player)
+{
+    var points = 0;
+    for(var i = 0; i < players[player].Hand.length; i++)
+    {
+        points += players[player].Hand[i].Weight;
+    }
+    players[player].Points = points;
+    return points;
+}
+
+function updatePoints()
+{
+    for (var i = 0 ; i < players.length; i++)
+    {
+        getPoints(i);
+        document.getElementById('points_' + i).innerHTML = players[i].Points;
+    }
+}
