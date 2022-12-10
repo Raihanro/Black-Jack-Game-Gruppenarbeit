@@ -162,11 +162,11 @@ function startblackjack()
     document.getElementById("status").style.display="none";
 
     currentPlayer = 0;
-    createDeck();
+    deckErstellen();
     shuffle();
     createPlayers(2);
     createPlayersUI();
-    dealHands();
+    händeAusteilen();
     document.getElementById('player_' + currentPlayer).classList.add('active');
 }
 
@@ -180,11 +180,11 @@ function getCardUI(card)
 {
     var el = document.createElement('div');
     var icon = '';
-    if (card.Suit == 'Hearts')
+    if (card.Suit === 'Herz')
         icon='&hearts;';
-    else if (card.Suit == 'Spades')
+    else if (card.Suit === 'Pik')
         icon = '&spades;';
-    else if (card.Suit == 'Diamonds')
+    else if (card.Suit === 'Karo')
         icon = '&diams;';
     else
         icon = '&clubs;';
