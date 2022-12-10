@@ -94,3 +94,8 @@ function check()
         end();
     }
 }
+
+function updateDeck()
+{
+    document.getElementById('Deckzahl').innerHTML = deck.length;
+}
