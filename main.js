@@ -5,6 +5,7 @@ let players = new Array();
 let currentPlayer = 0;
 
 function deckErstellen() {
+    // Karten erstellen und Werte bestimmen
     deck = new Array();
     for (let i = 0 ; i < werte.length; i++)
     {
@@ -86,6 +87,7 @@ function haendeAusteilen()
 {
     // abwechselndes Austeilen von Karten an jeden Spieler
     // jeweils 2 Karten
+    //
     for(let i = 0; i < 2; i++)
     {
         for (let x = 0; x < players.length; x++)
@@ -159,7 +161,7 @@ function hitMe()
 
 function bleiben()
 {
-    // weiter zum nächsten Spieler, falls vorhanden ist...
+    // weiter zum nächsten Spieler, falls der "player1" dran war.
     if (currentPlayer !== players.length-1) {
         document.getElementById('player_' + currentPlayer).classList.remove('active');
         currentPlayer += 1;
@@ -173,6 +175,7 @@ function bleiben()
 
 function end()
 {
+    // Ergebnis des Spieles zeigen lassen, indem der Spieler gewinnt oder verliert.
     let Gewinner = -1;
     let score = 0;
 
@@ -194,6 +197,7 @@ function check()
 {
     if (players[currentPlayer].Points > 21)
     {
+        // Überprüfen, ob aktueller Spieler gebüstet worden ist.(Büsten = eng. check for busts = Wenn Spieler mehr Punkte als 21 erreicht hat)
         document.getElementById('status').innerHTML = 'Spieler: ' + players[currentPlayer].ID + ' verloren';
         document.getElementById('status').style.display = "inline-block";
         end();
@@ -202,6 +206,7 @@ function check()
 
 function updateDeck()
 {
+    // Deckanzahl kommt wieder auf 52 zurück
     document.getElementById('Deckzahl').innerHTML = deck.length;
 }
 
